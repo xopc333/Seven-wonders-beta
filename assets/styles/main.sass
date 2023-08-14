@@ -1,0 +1,65 @@
+@mixin font($fname, $furl)
+  @font-face
+    font-family: $fname
+    font-display: swap
+    src: local($fname), url($furl) format('truetype')
+
+@include font('Roboto-regular', '../fonts/Roboto/Roboto-Regular.ttf')
+@include font('Roboto-bold', '../fonts/Roboto/Roboto-Bold.ttf')
+@include font('Avantgardectt-bold', '../fonts/avantgardectt-bold/avantgardectt-bold.woff2')
+@include font('century-gothic-bold', '../fonts/century-gothic-bold.ttf')
+@include font('century-gothic', '../fonts/Century Gothic.ttf')
+
+::placeholder
+  color: #666
+
+::selection
+  background-color: orange
+  color: #fff
+
+input, textarea
+  outline: none
+  &:focus:required:invalid
+    border-color: red
+  &:required:valid
+    border-color: green
+
+.disable-hover
+  pointer-events: none !important
+
+html:root
+  --vw: 1vw
+  --blur: 6px
+  --bgc: rgba(0, 0, 0, 0.3)
+  --result: 0
+
+body
+  font: 16px 'Roboto-regular'
+  min-width: 320px
+  margin: 0
+  position: relative
+  line-height: 1.65
+  overflow-x: hidden
+  background-color: #232629
+
+button
+  outline-color: cornflowerblue
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+  &::-moz-focus-inner
+    border: 0
+
+a
+  outline-color: cornflowerblue
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+
+img
+  width: 100%
+  vertical-align: bottom
+
+.body-wrap
+  position: relative
+  max-width: calc(var(--vw)*100)
+  height: 100vh
+  margin: 0 auto
+  padding: 0.1px 0 0
+
