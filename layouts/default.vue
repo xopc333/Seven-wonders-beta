@@ -24,7 +24,7 @@
     <div class="wrap-img" :class="{'active': active === 'pyramids'}">
       <img src="/seven-wonders/pyramids.jpg" alt="" class="img">
     </div>
-    <NuxtPage @dataName="(i)=>{ active = i; console.log(i);}"/>
+    <NuxtPage @dataName="(i)=>{ active = i}"/>
   </div>
 
 </template>

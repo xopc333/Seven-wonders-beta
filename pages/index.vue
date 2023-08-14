@@ -87,6 +87,7 @@
 
 <script setup>
 import {onMounted,ref,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {useTransitionsStore} from '~/store/state';
 
 definePageMeta({
   layout: "default",
@@ -96,18 +97,15 @@ useHead({
   title: 'Home ',
 })
 const emit = defineEmits(['dataName']);
+const store = useTransitionsStore();
 const active = ref('pyramids');
 const route = useRoute().path;
 
 if(route === '/') active.value = 'pyramids';
-
+console.log(store.position);
 // watch(active,() => {
 //   emit('dataName', active.value)
 //   console.log('ypa',active.value)
-// })
-// watch(route,() => {
-//   if(route === '/') active.value = 'pyramids';
-//
 // })
 
 watchEffect(() =>{
@@ -137,6 +135,16 @@ onMounted(() => {
   getDataName('focus');
   setDataName('mouseleave');
   setDataName('focusout');
+
+  arrItem.forEach(elem => {
+    elem.addEventListener('click',()=>{
+      let {x,y} = elem.getBoundingClientRect();
+      store.position.homeX = x.toFixed(2);
+      store.position.homeY = y.toFixed(2);
+      console.log(store.position);
+    });
+  })
+
 })
 </script>
 

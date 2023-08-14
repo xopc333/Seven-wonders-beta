@@ -14,6 +14,7 @@
 
 <script setup>
 import {onMounted,ref,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {useTransitionsStore} from '~/store/state';
 
 definePageMeta({
   layout: "default",
@@ -25,6 +26,7 @@ useHead({
 
 const emit = defineEmits(['dataName']);
 const active = ref('chichen-itza');
+const store = useTransitionsStore();
 
 watchEffect(() =>{
   emit('dataName', active.value)
@@ -41,17 +43,17 @@ onMounted(() => {
 
   const resizeObserver = new ResizeObserver(() => {
     let bodyWrapSize = bodyWrap.getBoundingClientRect().height;
-    let wHeaderWrap = headerWrap.getBoundingClientRect().top;
-    let result = (1080 - bodyWrapSize)/2 + wHeaderWrap
+    let wHeaderWrap = headerWrap.getBoundingClientRect();
+    let result = (1080 - bodyWrapSize)/2 + wHeaderWrap.top;
     root.style.setProperty('--result', `${-result}px`);
+    store.position.itemX = wHeaderWrap.x.toFixed(2);
+    store.position.itemY = wHeaderWrap.y.toFixed(2);
+    console.log(store.position,'result');
   })
   resizeObserver.observe(bodyWrap);
   resizeObserver.observe(header);
 
-  // console.log(bodyWrapSize,'body');
-  // console.log(w,'header');
-  // console.log(wHeaderWrap,'wHeaderWrap');
-  // console.log(`${-result}`,'result');
+  // console.log(bodyWrapSize,'result');
 
   button.addEventListener('click',()=> {
     header.classList.add('active-header')
