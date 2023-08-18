@@ -31,8 +31,11 @@
 
 <script setup>
 import {defineEmits, onMounted, ref, watch} from "vue";
+import {useTransitionsStore} from '~/store/state';
 
-const emit = defineEmits(['dataName']);
+const store = useTransitionsStore();
+
+//const emit = defineEmits(['dataName']);
 
 const active = ref();
 
@@ -42,7 +45,7 @@ onMounted(() => {
   function sizeBody() {
     let W_Height = window.screen.availHeight; //window.outerHeight;
     let W_Width = window.screen.availWidth; //outerWidth;
-    let n = W_Width / W_Height;
+    //let n = W_Width / W_Height;
 
     //if (W_Width > W_Height && n > 1.78) {
     if (W_Width < 800) {
@@ -51,6 +54,9 @@ onMounted(() => {
     } else {
       root.style.setProperty("--vw", "1vw");
     }
+
+    store.position.viewportW = Math.round(W_Width); //.toFixed(2);
+    store.position.viewportH = Math.round(W_Height); //.toFixed(2);
 
   }
   sizeBody();

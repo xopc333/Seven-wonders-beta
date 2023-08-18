@@ -4,7 +4,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   css: ["~/assets/styles/main.sass"],
   modules: [ '@pinia/nuxt' ],
-  devtools: {enabled: true},
+  devtools: {enabled: false},
   // experimental: {
   //   payloadExtraction: false
   // }

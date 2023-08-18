@@ -1,5 +1,5 @@
 <template>
-  <div class="main-wrap">
+  <div class="home-template">
 <!--    <div class="wrap-img" :class="{'active': active === 'chichen-itza'}">-->
 <!--      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="img">-->
 <!--    </div>-->
@@ -66,7 +66,7 @@
       <NuxtLink to="/" class="item-wrap" data-name="coliseum">
         <img src="/seven-wonders/small-1000/coliseum(1000).jpg" alt="" class="item">
       </NuxtLink>
-      <NuxtLink to="/" class="item-wrap" data-name="machu-picchu">
+      <NuxtLink to="/about" class="item-wrap" data-name="machu-picchu">
         <img src="/seven-wonders/small-1000/machu-picchu(1000).jpg" alt="" class="item">
       </NuxtLink>
       <NuxtLink to="/" class="item-wrap" data-name="petra">
@@ -78,7 +78,7 @@
       <NuxtLink to="/" class="item-wrap" data-name="taj-mahal">
         <img src="/seven-wonders/small-1000/taj-mahal(1000).jpg" alt="" class="item">
       </NuxtLink>
-      <NuxtLink to="/" class="item-wrap" data-name="wall">
+      <NuxtLink to="/about" class="item-wrap" data-name="wall">
         <img src="/seven-wonders/small-1000/wall(1000).jpg" alt="" class="item">
       </NuxtLink>
     </div>
@@ -86,11 +86,30 @@
 </template>
 
 <script setup>
-import {onMounted,ref,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {onMounted,ref,reactive,nextTick,watch,watchEffect,defineEmits} from "vue";
 import {useTransitionsStore} from '~/store/state';
 
 definePageMeta({
   layout: "default",
+  pageTransition: {
+    mode: 'in-out',
+    //name: 'page'
+    css: false,
+    // onBeforeEnter(el) {
+    //   //(!state.check) ? actorFromEnterFalse(el):actorFromEnterTrue(el);
+    // },
+    // onEnter(el, done) {
+    //   //(!state.check) ? actorEnterFalse(el, done) : actorEnterTrue(el, done);
+    // },
+    onBeforeLeave(el) {
+      useTransitionsStore().homeBeforeLeave(el);
+      ///actorBeforeLeaveTrue(el);
+    },
+    onLeave(el, done) {
+      useTransitionsStore().homeLeave(el, done);
+      ///(!state.check) ? actorLeave(el, done):actorLeaveTrue(el, done);
+    }
+  }
 });
 
 useHead({
@@ -102,7 +121,8 @@ const active = ref('pyramids');
 const route = useRoute().path;
 
 if(route === '/') active.value = 'pyramids';
-console.log(store.position);
+
+//console.log(store.position);
 // watch(active,() => {
 //   emit('dataName', active.value)
 //   console.log('ypa',active.value)
@@ -139,23 +159,25 @@ onMounted(() => {
   arrItem.forEach(elem => {
     elem.addEventListener('click',()=>{
       let {x,y} = elem.getBoundingClientRect();
-      store.position.homeX = x.toFixed(2);
-      store.position.homeY = y.toFixed(2);
-      console.log(store.position);
+      store.position.homeX = Math.round(x);  //x.toFixed(2);
+      store.position.homeY = Math.round(y);  //y.toFixed(2);
+      //console.log(store.position);
     });
   })
-
+  store.position.itemW = Math.round(arrItem[0].getBoundingClientRect().width);
+  //console.log(store.position);
 })
 </script>
 
 <style lang="sass" scoped>
-.main-wrap
+.home-template
   width: 100%
   height: 100vh
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
+  //z-index: -1
 
 //.wrap-img
   position: absolute
@@ -255,7 +277,7 @@ onMounted(() => {
   //gap: 0 10px
   max-width: 1000px
   padding: 0 5px
-  margin: 50px auto 70px
+  margin: 50px auto auto //70px
   z-index: 1
   //outline: 1px solid red
 
@@ -276,5 +298,42 @@ onMounted(() => {
   object-fit: cover
   object-position: center
   box-shadow: 0 0 20px 0 rgba(0,0,0,1)
+
+//=================================================
+//.page-enter-active
+//  opacity: 1
+//  transition: all 1s
+//
+//.page-leave-active
+//  z-index: -1
+//  opacity: 0
+//  transition: 1s
+//
+//.page-enter-from
+//  opacity: 0
+//  //transition: 2.6s
+
+//.page-enter-to
+  opacity: 1
+  transition: 2.6s
+
+//.page-leave-from
+  //opacity: 0
+  //transition: 1.6s
+  z-index: -1
+
+//.page-leave-to
+  z-index: -1
+  //opacity: 0
+  //transition: 1.6s
+
+
+
+  //.main-wrap
+    background-color: #666666
+  //transition: all 1s
+  //opacity: 0
+  //filter: blur(1rem)
+
 
 </style>
