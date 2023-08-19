@@ -1,29 +1,5 @@
 <template>
   <div class="home-template">
-<!--    <div class="wrap-img" :class="{'active': active === 'chichen-itza'}">-->
-<!--      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'coliseum'}">-->
-<!--      <img src="/seven-wonders/coliseum.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'machu-picchu'}">-->
-<!--      <img src="/seven-wonders/machu-picchu.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'petra'}">-->
-<!--      <img src="/seven-wonders/petra.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'statue'}">-->
-<!--      <img src="/seven-wonders/statue.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'taj-mahal'}">-->
-<!--      <img src="/seven-wonders/taj-mahal.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'wall'}">-->
-<!--      <img src="/seven-wonders/wall.jpg" alt="" class="img">-->
-<!--    </div>-->
-<!--    <div class="wrap-img" :class="{'active': active === 'pyramids'}">-->
-<!--      <img src="/seven-wonders/pyramids.jpg" alt="" class="img">-->
-<!--    </div>-->
 
     <div class="wrap-h1">
       <h2 class="item-h2"
@@ -55,8 +31,8 @@
       >The great Wall of China</h2>
 
       <h1 class="h1"
-          :class="{'active-h1-home': active === 'pyramids','act-h1-home': active !== 'pyramids'}"
-      >7 wonders of the world<br><span class="h2">Our time</span></h1>
+          :class="{'active-h1-home': active ==='pyramids','act-h1-home': active !== 'pyramids'}"
+      >7 wonders of <span style="white-space: nowrap;">the world</span><br><span class="h2">Our time</span></h1>
     </div>
 
     <div class="block-wrap">
@@ -87,6 +63,7 @@
 
 <script setup>
 import {onMounted,ref,reactive,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {gsap} from "gsap";
 import {useTransitionsStore} from '~/store/state';
 
 definePageMeta({
@@ -95,12 +72,14 @@ definePageMeta({
     mode: 'in-out',
     //name: 'page'
     css: false,
-    // onBeforeEnter(el) {
-    //   //(!state.check) ? actorFromEnterFalse(el):actorFromEnterTrue(el);
-    // },
-    // onEnter(el, done) {
-    //   //(!state.check) ? actorEnterFalse(el, done) : actorEnterTrue(el, done);
-    // },
+    onBeforeEnter(el) {
+      useTransitionsStore().homeBeforeEnter(el);
+      //(!state.check) ? actorFromEnterFalse(el):actorFromEnterTrue(el);
+    },
+    onEnter(el, done) {
+      useTransitionsStore().homeEnter(el, done)
+      //(!state.check) ? actorEnterFalse(el, done) : actorEnterTrue(el, done);
+    },
     onBeforeLeave(el) {
       useTransitionsStore().homeBeforeLeave(el);
       ///actorBeforeLeaveTrue(el);
@@ -118,11 +97,8 @@ useHead({
 const emit = defineEmits(['dataName']);
 const store = useTransitionsStore();
 const active = ref('pyramids');
-const route = useRoute().path;
+//const route = useRoute().path;
 
-if(route === '/') active.value = 'pyramids';
-
-//console.log(store.position);
 // watch(active,() => {
 //   emit('dataName', active.value)
 //   console.log('ypa',active.value)
@@ -134,9 +110,11 @@ watchEffect(() =>{
 })
 
 onMounted(() => {
-
+  const root = document.documentElement;
   const arrItem = [...document.querySelectorAll('.item-wrap')]
   const blockWrap = document.querySelector('.block-wrap');
+
+  gsap.set(root,{'--blur': 0,'--bgc': 'rgba(0, 0, 0, 0.0)'});
 
   function getDataName(event) {
     arrItem.forEach(elem => {
@@ -159,13 +137,14 @@ onMounted(() => {
   arrItem.forEach(elem => {
     elem.addEventListener('click',()=>{
       let {x,y} = elem.getBoundingClientRect();
-      store.position.homeX = Math.round(x);  //x.toFixed(2);
-      store.position.homeY = Math.round(y);  //y.toFixed(2);
+      store.position.homeX = x.toFixed(2); //Math.round(x);  //x.toFixed(2);
+      store.position.homeY = y.toFixed(2); //Math.round(y);  //y.toFixed(2);
       //console.log(store.position);
     });
   })
   store.position.itemW = Math.round(arrItem[0].getBoundingClientRect().width);
   //console.log(store.position);
+
 })
 </script>
 
@@ -199,11 +178,13 @@ onMounted(() => {
 
 .wrap-h1
   position: relative
+  max-width: 1000px
   margin: auto auto 0
+  outline: 1px solid red
 
 .h2
   //width: max-content
-  font: 70px 'Roboto-bold'
+  font: 68px 'Roboto-bold'
   //text-transform: uppercase
   //text-align: center
   //color: #F0EEEF //rgba(255, 255, 255, 0.6)
@@ -218,8 +199,8 @@ onMounted(() => {
   //opacity: 0
 
 .h1
-  width: max-content
-  font: 80px 'Avantgardectt-bold'
+  max-width: 1000px
+  font: 78px 'Avantgardectt-bold'
   text-transform: uppercase
   text-align: center
   color: #F0EEEF
@@ -230,8 +211,8 @@ onMounted(() => {
   opacity: 0
 
 .active-h1-home
-  transform: translateY(0)
-  opacity: 1
+  transform: translateY(var(--transform))
+  opacity: var(--opacity)
   transition: 0.6s
 
 .act-h1-home
@@ -247,8 +228,8 @@ onMounted(() => {
   position: absolute
   left: 50%
   bottom: 0
-  width: max-content
-  font: 80px 'Avantgardectt-bold'
+  width: 100% //max-content
+  font: 78px 'Avantgardectt-bold'
   text-transform: uppercase
   text-align: center
   color: #F0EEEF
@@ -299,41 +280,11 @@ onMounted(() => {
   object-position: center
   box-shadow: 0 0 20px 0 rgba(0,0,0,1)
 
-//=================================================
-//.page-enter-active
-//  opacity: 1
-//  transition: all 1s
-//
-//.page-leave-active
-//  z-index: -1
-//  opacity: 0
-//  transition: 1s
-//
-//.page-enter-from
-//  opacity: 0
-//  //transition: 2.6s
-
-//.page-enter-to
-  opacity: 1
-  transition: 2.6s
-
-//.page-leave-from
-  //opacity: 0
-  //transition: 1.6s
-  z-index: -1
-
-//.page-leave-to
-  z-index: -1
-  //opacity: 0
-  //transition: 1.6s
-
-
-
-  //.main-wrap
-    background-color: #666666
-  //transition: all 1s
-  //opacity: 0
-  //filter: blur(1rem)
-
+@media only screen and (max-width: 760px)
+  .h1,
+  .item-h2
+    font-size: 13vmin
+  .h2
+    font-size: 11.6vmin
 
 </style>

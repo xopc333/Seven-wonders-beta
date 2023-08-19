@@ -1,4 +1,5 @@
 <template>
+  <NuxtLink to="/" class="button-exit">Exit</NuxtLink>
   <div class="body-wrap">
     <div class="wrap-img" :class="{'active': active === 'chichen-itza'}">
       <img src="/seven-wonders/chichen-itza.jpg" alt="" class="img">
@@ -51,12 +52,14 @@ onMounted(() => {
     if (W_Width < 800) {
       let vw = Math.floor(W_Height * 1.777777777777778);
       root.style.setProperty("--vw", `${vw / 100}px`);
+      //console.log(vw)
     } else {
       root.style.setProperty("--vw", "1vw");
     }
 
-    store.position.viewportW = Math.round(W_Width); //.toFixed(2);
-    store.position.viewportH = Math.round(W_Height); //.toFixed(2);
+    //
+    // store.position.viewportW = Math.round(W_Width); //.toFixed(2);
+    // store.position.viewportH = Math.round(W_Height); //.toFixed(2);
 
   }
   sizeBody();
@@ -65,6 +68,11 @@ onMounted(() => {
 </script>
 
 <style lang="sass" scoped>
+.button-exit
+  position: fixed
+  top: 30px
+  right: 30px
+
 .body-wrap
   position: relative
   //position: fixed
@@ -80,14 +88,17 @@ onMounted(() => {
     backdrop-filter: blur(var(--blur))
     //background-color: rgba(255, 255, 255, 0.3)
     background-color: var(--bgc)
+    //transition: 0.4s
+    //will-change: backdrop-filter
     z-index: -1
 
 .wrap-img
   position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100vh
+  //top: 0
+  //left: 0
+  //width: 100%
+  //height: 100vh
+  inset: 0
   overflow: hidden
   z-index: -1
   opacity: 0

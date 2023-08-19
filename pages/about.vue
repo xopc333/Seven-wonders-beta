@@ -1,6 +1,6 @@
 <template>
   <div class="article-template">
-    <button class="button">Start</button>
+    <NuxtLink to="/" class="button-back">Back</NuxtLink>
     <section class="header">
       <div class="header-wrap">
         <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">
@@ -87,6 +87,7 @@
 
 <script setup>
 import {onMounted,ref,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {gsap} from "gsap";
 import {useTransitionsStore} from '~/store/state';
 //const st = useTransitionsStore();
 
@@ -136,6 +137,7 @@ onMounted(() => {
   const header = document.querySelector('.header');
   const headerWrap = document.querySelector('.header-wrap');
   const bodyWrap = document.querySelector('.body-wrap');
+  const headerImg = document.querySelector('.header-img');
   const root = document.documentElement;
 
   const resizeObserver = new ResizeObserver(() => {
@@ -150,14 +152,29 @@ onMounted(() => {
   resizeObserver.observe(bodyWrap);
   resizeObserver.observe(header);
 
-  // const app = document.querySelector('.header-wrap').getBoundingClientRect();
-  //
+  gsap.set(root,{'--blur': '6px','--bgc': 'rgba(0, 0, 0, 0.3)'});
+
+  function moveArticle() {
+    const tl = gsap.timeline();
+    tl.to(headerWrap,{duration: 0.4, width: '90vw', height: '30vh'},'st')
+        .set(header,{className:'header active-header'},'st')
+        .set(headerImg,{className:'header-img active-img'},'st')
+        // .to(header,{duration: 0.4, height: '40vh'},'st')
+        // .to(headerImg,{duration: 0.4, objectPosition: 'center var(--result)'},'st')
+
+  }
+
+  document.addEventListener('wheel', function(e) {
+    if( e.deltaY === 100) moveArticle();
+    console.log('result', e.deltaY);
+  });
+
   // console.log(app,'result');
 
-  button.addEventListener('click',()=> {
-    header.classList.add('active-header')
-    headerWrap.classList.add('active-header-wrap')
-  })
+  // button.addEventListener('click',()=> {
+  //   header.classList.add('active-header')
+  //   headerWrap.classList.add('active-header-wrap')
+  // })
 
 
 })
@@ -176,7 +193,7 @@ onMounted(() => {
   position: absolute
   inset: 0
 
-.button
+.button-back
   position: fixed
   top: 30px
   left: 30px
@@ -191,27 +208,18 @@ onMounted(() => {
   height: 100vh
   margin: 0 auto
   //height: 40vh
-  transition: 0.6s
+  //transition: 0.6s
   pointer-events: none
   outline: 1px solid red
 
 .active-header
   height: 40vh
-
+  transition: 0.6s
 
 .header-wrap
-  //position: absolute
-  //top: var(--top) //calc(50% - 20vh)
-  //left: 360px //var(--left) //calc(50% - 300px)
-  //bottom: 70px
-  //transform: translate(50%,0)
-  //max-width: var(--width) //600px
-  width: 800px
-  height: 50vh //var(--height) //40vh //400px
+  width: 800px //var(--width) //800px
+  height: 50vh //var(--height) //50vh
   transform: translate3d(0,0,0)
-  //aspect-ratio: 4/3
-  //width: 90vw
-  //height: 30vh
   margin: auto
   overflow: hidden
   border-radius: 16px
@@ -222,7 +230,7 @@ onMounted(() => {
   backface-visibility: hidden
 
 
-.active-header-wrap
+//.active-header-wrap
   width: 90vw
   height: 30vh
   transition: 0.6s
@@ -230,11 +238,13 @@ onMounted(() => {
     object-position: center var(--result)
 
 .header-img
-  //width: 100%
   height: 100%
   object-fit: none //var(--img)  //none
   object-position: center
   //box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
+
+.active-img
+  object-position: center var(--result)
 
 //===========================
 
@@ -279,37 +289,5 @@ onMounted(() => {
 .article-text
   width: 60vw
   margin: 0 auto
-//=================================================
-//.pages-enter-active
-//  z-index: 100
-//  transition: 1s
-//  //.header-wrap
-//    transform: translate(0%,0)
-//    transition: 1s
-//
-//.pages-leave-active
-//  transition: 1s
-//  //opacity: 0
-//
-//.pages-enter-from
-//  .header-wrap
-//    transform: translateX(-100%)
-//    transition: 0s
-//
-//.pages-enter-to
-//  .header-wrap
-//    transform: translateX(-100%)
-//    transition: 1s
-//
-//.pages-leave-from
-//  .header-wrap
-//    transform: translateX(0%)
-//    //transition: all 2s
-//
-//.pages-leave-to
-//  .header-wrap
-//    transform: translateX(-100%)
-//    transition: 1s
-
 
 </style>
