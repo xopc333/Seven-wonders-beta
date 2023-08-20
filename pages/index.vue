@@ -80,10 +80,10 @@ definePageMeta({
       useTransitionsStore().homeEnter(el, done)
       //(!state.check) ? actorEnterFalse(el, done) : actorEnterTrue(el, done);
     },
-    onBeforeLeave(el) {
-      useTransitionsStore().homeBeforeLeave(el);
-      ///actorBeforeLeaveTrue(el);
-    },
+    // onBeforeLeave(el) {
+    //   useTransitionsStore().homeBeforeLeave(el);
+    //   ///actorBeforeLeaveTrue(el);
+    // },
     onLeave(el, done) {
       useTransitionsStore().homeLeave(el, done);
       ///(!state.check) ? actorLeave(el, done):actorLeaveTrue(el, done);
@@ -106,6 +106,7 @@ const active = ref('pyramids');
 
 watchEffect(() =>{
   emit('dataName', active.value)
+  store.dataName = active.value;
   //console.log('ypa',active.value)
 })
 
@@ -180,7 +181,7 @@ onMounted(() => {
   position: relative
   max-width: 1000px
   margin: auto auto 0
-  outline: 1px solid red
+  //outline: 1px solid red
 
 .h2
   //width: max-content
@@ -263,7 +264,6 @@ onMounted(() => {
   //outline: 1px solid red
 
 .item-wrap
-  //border-radius: 10px
   padding: 0 5px
   //overflow: hidden
   //box-shadow: 0 0 20px 0 rgba(0,0,0,1)

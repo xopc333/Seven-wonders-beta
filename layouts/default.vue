@@ -32,9 +32,9 @@
 
 <script setup>
 import {defineEmits, onMounted, ref, watch} from "vue";
-import {useTransitionsStore} from '~/store/state';
+//import {useTransitionsStore} from '~/store/state';
 
-const store = useTransitionsStore();
+//const store = useTransitionsStore();
 
 //const emit = defineEmits(['dataName']);
 
@@ -89,7 +89,7 @@ onMounted(() => {
     //background-color: rgba(255, 255, 255, 0.3)
     background-color: var(--bgc)
     //transition: 0.4s
-    //will-change: backdrop-filter
+    //will-change: backdrop-filter, background-color
     z-index: -1
 
 .wrap-img

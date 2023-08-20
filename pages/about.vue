@@ -99,19 +99,16 @@ definePageMeta({
     css: false,
     onBeforeEnter(el) {
       useTransitionsStore().articleFromEnter(el);
-      //(!state.check) ? articleFromEnterFalse(el):actorFromEnterTrue(el);
-      //st.articleFromEnter(el);
     },
     onEnter(el, done) {
       useTransitionsStore().articleEnter(el, done)
-      //(!state.check) ? actorEnterFalse(el, done) : actorEnterTrue(el, done);
     },
-    // onBeforeLeave(el) {
-    //   ///actorBeforeLeaveTrue(el);
-    // },
-    // onLeave(el, done) {
-    //   ///(!state.check) ? actorLeave(el, done):actorLeaveTrue(el, done);
-    // }
+    onBeforeLeave(el) {
+      useTransitionsStore().articleBeforeLeave(el);
+    },
+    onLeave(el, done) {
+      useTransitionsStore().articleLeave(el, done);
+    }
   }
 });
 
@@ -122,7 +119,7 @@ useHead({
 //const route = useRoute().path;
 
 const emit = defineEmits(['dataName']);
-const active = ref('chichen-itza');
+const active = ref('machu-picchu');
 //const active = ref(route);
 //const store = useTransitionsStore();
 
@@ -208,13 +205,14 @@ onMounted(() => {
   height: 100vh
   margin: 0 auto
   //height: 40vh
-  //transition: 0.6s
+  transition: 0.6s
   pointer-events: none
+  //will-change: contents
   outline: 1px solid red
 
 .active-header
   height: 40vh
-  transition: 0.6s
+  //transition: 0.6s
 
 .header-wrap
   width: 800px //var(--width) //800px
@@ -225,9 +223,9 @@ onMounted(() => {
   border-radius: 16px
   box-shadow: 0 0 30px 0 rgba(0,0,0,0.7)
   //transition: all 0.6s
-  will-change: transform, max-width, height //contents
+  will-change: contents //transform, max-width, height //contents
   perspective: 1000px
-  backface-visibility: hidden
+  //backface-visibility: hidden
 
 
 //.active-header-wrap
@@ -240,7 +238,7 @@ onMounted(() => {
 .header-img
   height: 100%
   object-fit: none //var(--img)  //none
-  object-position: center
+  object-position: center center
   //box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
 
 .active-img
