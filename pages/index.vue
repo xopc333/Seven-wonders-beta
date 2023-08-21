@@ -36,7 +36,7 @@
     </div>
 
     <div class="block-wrap">
-      <NuxtLink to="/about" class="item-wrap" data-name="chichen-itza">
+      <NuxtLink to="/about" class="item-wrap" data-name="machu-picchu">
         <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" alt="" class="item">
       </NuxtLink>
       <NuxtLink to="/" class="item-wrap" data-name="coliseum">
