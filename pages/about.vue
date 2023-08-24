@@ -2,9 +2,11 @@
   <div class="article-template">
     <NuxtLink to="/" class="button-back">Back</NuxtLink>
     <section class="header">
-      <div class="header-wrap">
-        <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">
-      </div>
+      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">
+<!--      <div class="header-wrap">-->
+<!--        <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">-->
+<!--      </div>-->
+      <h1 class="header-h1">Chichen-Itza</h1>
     </section>
     <section class="article">
       <div class="article-text">
@@ -119,7 +121,7 @@ useHead({
 //const route = useRoute().path;
 
 const emit = defineEmits(['dataName']);
-const active = ref('machu-picchu');
+const active = ref('chichen-itza');
 //const active = ref(route);
 //const store = useTransitionsStore();
 
@@ -132,38 +134,33 @@ onMounted(() => {
   const button = document.querySelector('.button');
 
   const header = document.querySelector('.header');
-  const headerWrap = document.querySelector('.header-wrap');
+  const article = document.querySelector('.article');
   const bodyWrap = document.querySelector('.body-wrap');
   const headerImg = document.querySelector('.header-img');
   const root = document.documentElement;
 
-  const resizeObserver = new ResizeObserver(() => {
-    let bodyWrapSize = bodyWrap.getBoundingClientRect().height;
-    let wHeaderWrap = headerWrap.getBoundingClientRect();
-    let result = (1080 - bodyWrapSize)/2 + wHeaderWrap.top; //поменять значение 1080
-    root.style.setProperty('--result', `${-result}px`);
-    // store.position.itemX = wHeaderWrap.x.toFixed(2);
-    // store.position.itemY = wHeaderWrap.y.toFixed(2);
-    // console.log(store.position,'result');
-  })
-  resizeObserver.observe(bodyWrap);
-  resizeObserver.observe(header);
+  // const resizeObserver = new ResizeObserver(() => {
+  //   let bodyWrapSize = bodyWrap.getBoundingClientRect().height;
+  //   let wHeaderWrap = headerWrap.getBoundingClientRect();
+  //   let result = (1080 - bodyWrapSize)/2 + wHeaderWrap.top; //поменять значение 1080
+  //   root.style.setProperty('--result', `${-result}px`);
+  //   // store.position.itemX = wHeaderWrap.x.toFixed(2);
+  //   // store.position.itemY = wHeaderWrap.y.toFixed(2);
+  //   // console.log(store.position,'result');
+  // })
+  // resizeObserver.observe(bodyWrap);
+  // resizeObserver.observe(header);
 
   gsap.set(root,{'--blur': '6px','--bgc': 'rgba(0, 0, 0, 0.3)'});
 
   function moveArticle() {
-    const tl = gsap.timeline();
-    tl.to(headerWrap,{duration: 0.4, width: '90vw', height: '30vh'},'st')
-        .set(header,{className:'header active-header'},'st')
-        .set(headerImg,{className:'header-img active-img'},'st')
-        // .to(header,{duration: 0.4, height: '40vh'},'st')
-        // .to(headerImg,{duration: 0.4, objectPosition: 'center var(--result)'},'st')
-
+    gsap.set(root,{'--top': '3vh', '--right': '3vh','--bottom': '80vh','--left': '3vh'});
+    gsap.set(article,{className:'article active-article'});
   }
 
   document.addEventListener('wheel', function(e) {
     if( e.deltaY === 100) moveArticle();
-    console.log('result', e.deltaY);
+    //console.log('result', e.deltaY);
   });
 
   // console.log(app,'result');
@@ -184,7 +181,7 @@ onMounted(() => {
   //--left: calc(50% - 540px)
   //--width: 100%
   //--height: 50vh
-  padding: 0 16px
+  //padding: 0 16px
   //width: 100%
   //position: relative
   position: absolute
@@ -194,7 +191,7 @@ onMounted(() => {
   position: fixed
   top: 30px
   left: 30px
-  //z-index: 10
+  z-index: 1
 
 .header
   display: flex
@@ -203,18 +200,19 @@ onMounted(() => {
   width: 100%
   //max-width: 600px
   height: 100vh
-  margin: 0 auto
+  clip-path: inset(var(--top) var(--right) var(--bottom) var(--left) round 16px)
+  //margin: 0 auto
   //height: 40vh
-  transition: 0.6s
-  pointer-events: none
+  transition: 0.7s
+  //pointer-events: none
   //will-change: contents
-  outline: 1px solid red
+  //outline: 1px solid red
 
-.active-header
+//.active-header
   height: 40vh
   //transition: 0.6s
 
-.header-wrap
+//.header-wrap
   width: 800px //var(--width) //800px
   height: 50vh //var(--height) //50vh
   transform: translate3d(0,0,0)
@@ -238,10 +236,19 @@ onMounted(() => {
 .header-img
   height: 100%
   object-fit: none //var(--img)  //none
-  object-position: center center
+  object-position: center
   //box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
 
-.active-img
+.header-h1
+  position: absolute
+  bottom: 20vh
+  left: calc(var( --left) + 20px)
+  font: 70px 'Avantgardectt-bold'
+  text-align: center
+  color: #F0EEEF
+  text-shadow: 0 0 20px rgba(0,0,0,1)
+
+//.active-img
   object-position: center var(--result)
 
 //===========================
@@ -274,8 +281,14 @@ onMounted(() => {
   overflow-x: hidden
   scrollbar-width: thin //Fire Fox
   scrollbar-color: #31363B #232629 //Fire Fox
+  transform: translateY(0)
+  transition: 0.7s
   &::-webkit-scrollbar
     width: 8px
+
+.active-article
+  transform: translateY(-78vh)
+  //transition: 0.7s
 
 .article::-webkit-scrollbar-track-piece
   background-color: #232629
@@ -285,7 +298,7 @@ onMounted(() => {
   background-color: #31363B
 
 .article-text
-  width: 60vw
+  max-width: 1200px
   margin: 0 auto
 
 </style>

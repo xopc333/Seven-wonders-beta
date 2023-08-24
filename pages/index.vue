@@ -36,7 +36,7 @@
     </div>
 
     <div class="block-wrap">
-      <NuxtLink to="/about" class="item-wrap" data-name="machu-picchu">
+      <NuxtLink to="/about" class="item-wrap" data-name="chichen-itza">
         <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" alt="" class="item">
       </NuxtLink>
       <NuxtLink to="/" class="item-wrap" data-name="coliseum">
@@ -137,14 +137,17 @@ onMounted(() => {
 
   arrItem.forEach(elem => {
     elem.addEventListener('click',()=>{
-      let {x,y} = elem.getBoundingClientRect();
-      store.position.homeX = x.toFixed(2); //Math.round(x);  //x.toFixed(2);
-      store.position.homeY = y.toFixed(2); //Math.round(y);  //y.toFixed(2);
+      // let {x,y} = elem.getBoundingClientRect();
+      // store.position.homeX = x.toFixed(2); //Math.round(x);  //x.toFixed(2);
+      // store.position.homeY = y.toFixed(2); //Math.round(y);  //y.toFixed(2);
       //console.log(store.position);
+      store.position = elem.getBoundingClientRect();
     });
   })
-  store.position.itemW = Math.round(arrItem[0].getBoundingClientRect().width);
-  //console.log(store.position);
+  //store.position.itemW = Math.round(arrItem[0].getBoundingClientRect().width);
+
+  // const homeTemplate = document.querySelector('.home-template').getBoundingClientRect();
+  // console.log(homeTemplate,'homeTemplate');
 
 })
 </script>

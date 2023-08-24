@@ -32,9 +32,10 @@
 
 <script setup>
 import {defineEmits, onMounted, ref, watch} from "vue";
-//import {useTransitionsStore} from '~/store/state';
+import {gsap} from "gsap";
+import {useTransitionsStore} from '~/store/state';
 
-//const store = useTransitionsStore();
+const store = useTransitionsStore();
 
 //const emit = defineEmits(['dataName']);
 
@@ -46,6 +47,8 @@ onMounted(() => {
   function sizeBody() {
     let W_Height = window.screen.availHeight; //window.outerHeight;
     let W_Width = window.screen.availWidth; //outerWidth;
+    let w = (W_Width - 800)/ 2;
+    store.widthItem = w;
     //let n = W_Width / W_Height;
 
     //if (W_Width > W_Height && n > 1.78) {
@@ -56,6 +59,15 @@ onMounted(() => {
     } else {
       root.style.setProperty("--vw", "1vw");
     }
+
+    if(W_Width < 832){
+      gsap.set(root,{'--left': 16, '--right': 16})
+      //root.style.setProperty("--width", '16px');
+    } else{
+      gsap.set(root,{'--left': `${w}px`, '--right': `${w}px`})
+      //root.style.setProperty("--width", `${w}px`);
+    }
+
 
     //
     // store.position.viewportW = Math.round(W_Width); //.toFixed(2);
@@ -86,10 +98,9 @@ onMounted(() => {
     content: ''
     inset: 0
     backdrop-filter: blur(var(--blur))
-    //background-color: rgba(255, 255, 255, 0.3)
     background-color: var(--bgc)
     //transition: 0.4s
-    //will-change: backdrop-filter, background-color
+    //will-change: backdrop-filter, background-color contents
     z-index: -1
 
 .wrap-img
