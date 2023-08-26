@@ -2,12 +2,14 @@
   <div class="article-template">
     <NuxtLink to="/" class="button-back">Back</NuxtLink>
     <section class="header">
-      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">
-<!--      <div class="header-wrap">-->
-<!--        <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">-->
-<!--      </div>-->
-      <h1 class="header-h1">Chichen-Itza</h1>
+<!--      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">-->
+      <picture>
+        <source media="screen and (min-width: 992px)" srcset="/seven-wonders/chichen-itza.jpg">
+        <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" class="header-img"  alt="">
+      </picture>
+      <h1 class="header-h1">Statue of<br>Christ the Redeemer</h1>
     </section>
+
     <section class="article">
       <div class="article-text">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur, consequatur enim itaque modi nulla
@@ -135,7 +137,7 @@ onMounted(() => {
 
   const header = document.querySelector('.header');
   const article = document.querySelector('.article');
-  const bodyWrap = document.querySelector('.body-wrap');
+  const headerH1 = document.querySelector('.header-h1');
   const headerImg = document.querySelector('.header-img');
   const root = document.documentElement;
 
@@ -154,37 +156,21 @@ onMounted(() => {
   gsap.set(root,{'--blur': '6px','--bgc': 'rgba(0, 0, 0, 0.3)'});
 
   function moveArticle() {
-    gsap.set(root,{'--top': '3vh', '--right': '3vh','--bottom': '80vh','--left': '3vh'});
+    gsap.set(root,{'--top': '3vh', '--right': '3vw','--bottom': '80vh','--left': '3vw'});
     gsap.set(article,{className:'article active-article'});
+    gsap.set(headerH1,{className:'header-h1 active-header-h1'});
   }
 
   document.addEventListener('wheel', function(e) {
     if( e.deltaY === 100) moveArticle();
-    //console.log('result', e.deltaY);
   });
-
-  // console.log(app,'result');
-
-  // button.addEventListener('click',()=> {
-  //   header.classList.add('active-header')
-  //   headerWrap.classList.add('active-header-wrap')
-  // })
-
-
 })
 
 </script>
 
 <style lang="sass" scoped>
 .article-template
-  //--top: calc(50% - 30vh)
-  //--left: calc(50% - 540px)
-  //--width: 100%
-  //--height: 50vh
-  //padding: 0 16px
-  //width: 100%
-  //position: relative
-  position: absolute
+  position: relative
   inset: 0
 
 .button-back
@@ -203,77 +189,35 @@ onMounted(() => {
   clip-path: inset(var(--top) var(--right) var(--bottom) var(--left) round 16px)
   //margin: 0 auto
   //height: 40vh
-  transition: 0.7s
+  transition-timing-function: ease-in
+  transition: 0.6s
   //pointer-events: none
   //will-change: contents
   //outline: 1px solid red
 
-//.active-header
-  height: 40vh
-  //transition: 0.6s
-
-//.header-wrap
-  width: 800px //var(--width) //800px
-  height: 50vh //var(--height) //50vh
-  transform: translate3d(0,0,0)
-  margin: auto
-  overflow: hidden
-  border-radius: 16px
-  box-shadow: 0 0 30px 0 rgba(0,0,0,0.7)
-  //transition: all 0.6s
-  will-change: contents //transform, max-width, height //contents
-  perspective: 1000px
-  //backface-visibility: hidden
-
-
-//.active-header-wrap
-  width: 90vw
-  height: 30vh
-  transition: 0.6s
-  .header-img
-    object-position: center var(--result)
-
+//.header-img
+//  display: inline
 .header-img
   height: 100%
-  object-fit: none //var(--img)  //none
-  object-position: center
+  object-fit: cover //var(--img)  //none
+  //object-position: center
   //box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
+picture
+  width: 100%
+  height: 100vh
 
 .header-h1
   position: absolute
   bottom: 20vh
   left: calc(var( --left) + 20px)
-  font: 70px 'Avantgardectt-bold'
-  text-align: center
+  font: 60px 'Avantgardectt-bold'
+  //text-align: center
   color: #F0EEEF
   text-shadow: 0 0 20px rgba(0,0,0,1)
 
-//.active-img
-  object-position: center var(--result)
+.active-header-h1
+  bottom: 75vh
 
-//===========================
-
-//.header-wrap
-  position: absolute
-  top: var(--top)
-  left: var(--left)
-  max-width: 143px
-  height: 30vh //400px
-  margin: auto
-  overflow: hidden
-  border-radius: 16px
-  box-shadow: 0 0 30px 0 rgba(0,0,0,0.7)
-  transition: 0.6s
-  will-change: top, left
-
-//.header-img
-  width: 8vw
-  height: 70vh
-  //aspect-ratio: 4/3
-  object-fit: none
-  object-position: center
-
-//===========================
 
 .article
   width: 100%
@@ -282,13 +226,14 @@ onMounted(() => {
   scrollbar-width: thin //Fire Fox
   scrollbar-color: #31363B #232629 //Fire Fox
   transform: translateY(0)
-  transition: 0.7s
+  transition: 0.6s
+  opacity: 0
   &::-webkit-scrollbar
     width: 8px
 
 .active-article
   transform: translateY(-78vh)
-  //transition: 0.7s
+  opacity: 1
 
 .article::-webkit-scrollbar-track-piece
   background-color: #232629
@@ -300,5 +245,9 @@ onMounted(() => {
 .article-text
   max-width: 1200px
   margin: 0 auto
+
+@media only screen and (max-width: 760px)
+  .header-h1
+    font: 7vmin 'Avantgardectt-bold'
 
 </style>

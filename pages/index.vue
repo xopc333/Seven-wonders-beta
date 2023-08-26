@@ -154,13 +154,14 @@ onMounted(() => {
 
 <style lang="sass" scoped>
 .home-template
+  position: relative
   width: 100%
   height: 100vh
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  //z-index: -1
+  inset: 0
 
 //.wrap-img
   position: absolute
