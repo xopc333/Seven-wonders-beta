@@ -122,23 +122,25 @@ useHead({
 
 //const route = useRoute().path;
 
-const emit = defineEmits(['dataName']);
+const emit = defineEmits(['dataName','check']);
 const active = ref('chichen-itza');
+//const check = ref(false);
 //const active = ref(route);
-//const store = useTransitionsStore();
+const store = useTransitionsStore();
 
 watchEffect(() =>{
   emit('dataName', active.value)
+  //emit('check', check.value)
   //console.log('ypa',active.value)
 })
 
 onMounted(() => {
-  const button = document.querySelector('.button');
+  //const button = document.querySelector('.button');
 
-  const header = document.querySelector('.header');
+  //const header = document.querySelector('.header');
   const article = document.querySelector('.article');
-  const headerH1 = document.querySelector('.header-h1');
-  const headerImg = document.querySelector('.header-img');
+  // const headerH1 = document.querySelector('.header-h1');
+  // const headerImg = document.querySelector('.header-img');
   const root = document.documentElement;
 
   // const resizeObserver = new ResizeObserver(() => {
@@ -156,9 +158,10 @@ onMounted(() => {
   gsap.set(root,{'--blur': '6px','--bgc': 'rgba(0, 0, 0, 0.3)'});
 
   function moveArticle() {
-    gsap.set(root,{'--top': '3vh', '--right': '3vw','--bottom': '80vh','--left': '3vw'});
+    store.check = true;
+    gsap.set(root,{'--top': '3vh', '--right': '3vw','--bottom': '80vh',
+      '--left': '3vw', '--bottom-header-h1': '75vh'});
     gsap.set(article,{className:'article active-article'});
-    gsap.set(headerH1,{className:'header-h1 active-header-h1'});
   }
 
   document.addEventListener('wheel', function(e) {
@@ -208,20 +211,23 @@ picture
 
 .header-h1
   position: absolute
-  bottom: 20vh
-  left: calc(var( --left) + 20px)
+  bottom: var(--bottom-header-h1)
+  left: calc(var(--left) + 20px)
   font: 60px 'Avantgardectt-bold'
-  //text-align: center
+  opacity: var(--opacity-header-h1)
   color: #F0EEEF
   text-shadow: 0 0 20px rgba(0,0,0,1)
+  transition: 0.4s
 
-.active-header-h1
-  bottom: 75vh
+//.active-header-h1
+  opacity: 1
+  //transition: 0.4s
+//bottom: 75vh
 
 
 .article
   width: 100%
-  height: 60vh
+  height: 72vh
   overflow-x: hidden
   scrollbar-width: thin //Fire Fox
   scrollbar-color: #31363B #232629 //Fire Fox
@@ -244,7 +250,9 @@ picture
 
 .article-text
   max-width: 1200px
+  padding: 0 16px
   margin: 0 auto
+  color: #F0EEEF
 
 @media only screen and (max-width: 760px)
   .header-h1

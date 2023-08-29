@@ -94,16 +94,20 @@ onMounted(() => {
       root.style.setProperty("--vw", "1vw");
     }
 
-    if(W_Width < 832){
-      gsap.set(root,{'--left': '3vw', '--right': '3vw','--top': '25vh','--bottom': '25vh'})
-      //root.style.setProperty("--width", '16px');
-    } else{
-      gsap.set(root,{'--left': `${w}px`, '--right': `${w}px`})
-      //root.style.setProperty("--width", `${w}px`);
+    if(!store.check){
+      if (W_Width < 832) {
+        gsap.set(root, {'--left': '3vw', '--right': '3vw', '--top': '25vh', '--bottom': '25vh'})
+        //root.style.setProperty("--width", '16px');
+        store.widthItem = W_Width * 0.03;
+        console.log('check.value');
+      } else {
+        //store.widthItem = w;
+        gsap.set(root, {'--left': `${w}px`, '--right': `${w}px`})
+        //root.style.setProperty("--width", `${w}px`);
+        console.log('check.value', 'ypa');
+      }
     }
 
-
-    //
     // store.position.viewportW = Math.round(W_Width); //.toFixed(2);
     // store.position.viewportH = Math.round(W_Height); //.toFixed(2);
 
