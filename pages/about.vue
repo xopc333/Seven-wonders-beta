@@ -2,10 +2,9 @@
   <div class="article-template">
     <NuxtLink to="/" class="button-back">Back</NuxtLink>
     <section class="header">
-<!--      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="header-img">-->
       <picture>
         <source media="screen and (min-width: 992px)" srcset="/seven-wonders/chichen-itza.jpg">
-        <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" class="header-img"  alt="">
+        <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" class="header-img" alt="">
       </picture>
       <h1 class="header-h1">Statue of<br>Christ the Redeemer</h1>
     </section>
@@ -90,10 +89,9 @@
 </template>
 
 <script setup>
-import {onMounted,ref,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {onMounted, ref, nextTick, watch, watchEffect, defineEmits} from "vue";
 import {gsap} from "gsap";
 import {useTransitionsStore} from '~/store/state';
-//const st = useTransitionsStore();
 
 definePageMeta({
   layout: "default",
@@ -122,13 +120,13 @@ useHead({
 
 //const route = useRoute().path;
 
-const emit = defineEmits(['dataName','check']);
+const emit = defineEmits(['dataName', 'check']);
 const active = ref('chichen-itza');
 //const check = ref(false);
 //const active = ref(route);
 const store = useTransitionsStore();
 
-watchEffect(() =>{
+watchEffect(() => {
   emit('dataName', active.value)
   //emit('check', check.value)
   //console.log('ypa',active.value)
@@ -153,19 +151,20 @@ onMounted(() => {
   //   // console.log(store.position,'result');
   // })
   // resizeObserver.observe(bodyWrap);
-  // resizeObserver.observe(header);
 
-  gsap.set(root,{'--blur': '6px','--bgc': 'rgba(0, 0, 0, 0.3)'});
+  gsap.set(root, {'--blur': '6px', '--bgc': 'rgba(0, 0, 0, 0.3)'});
 
   function moveArticle() {
     store.check = true;
-    gsap.set(root,{'--top': '3vh', '--right': '3vw','--bottom': '80vh',
-      '--left': '3vw', '--bottom-header-h1': '75vh'});
-    gsap.set(article,{className:'article active-article'});
+    gsap.set(root, {
+      '--top': '3vh', '--right': '3vw', '--bottom': '82vh',
+      '--left': '3vw', '--bottom-header-h1': '82vh'
+    });
+    gsap.set(article, {className: 'article active-article'});
   }
 
-  document.addEventListener('wheel', function(e) {
-    if( e.deltaY === 100) moveArticle();
+  document.addEventListener('wheel', function (e) {
+    if (e.deltaY === 100) moveArticle();
   });
 })
 
@@ -195,16 +194,15 @@ onMounted(() => {
   transition-timing-function: ease-in
   transition: 0.6s
   //pointer-events: none
-  //will-change: contents
-  //outline: 1px solid red
+  will-change: contents
 
-//.header-img
-//  display: inline
 .header-img
   height: 100%
-  object-fit: cover //var(--img)  //none
-  //object-position: center
-  //box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
+  object-fit: cover
+//var(--img)  //none
+//object-position: center
+//box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
+
 picture
   width: 100%
   height: 100vh
@@ -213,27 +211,25 @@ picture
   position: absolute
   bottom: var(--bottom-header-h1)
   left: calc(var(--left) + 20px)
-  font: 60px 'Avantgardectt-bold'
+  font: 6.5vmin 'Avantgardectt-bold'
+  //margin: 0 0 10px
   opacity: var(--opacity-header-h1)
   color: #F0EEEF
-  text-shadow: 0 0 20px rgba(0,0,0,1)
+  text-shadow: 0 0 20px rgba(0, 0, 0, 1)
   transition: 0.4s
-
-//.active-header-h1
-  opacity: 1
-  //transition: 0.4s
-//bottom: 75vh
-
 
 .article
   width: 100%
   height: 72vh
   overflow-x: hidden
-  scrollbar-width: thin //Fire Fox
-  scrollbar-color: #31363B #232629 //Fire Fox
+  scrollbar-width: thin
+  //Fire Fox
+  scrollbar-color: #31363B #232629
+  //Fire Fox
   transform: translateY(0)
   transition: 0.6s
   opacity: 0
+
   &::-webkit-scrollbar
     width: 8px
 
@@ -256,6 +252,11 @@ picture
 
 @media only screen and (max-width: 760px)
   .header-h1
-    font: 7vmin 'Avantgardectt-bold'
+    font-size: 7vmin
+
+@media only screen and (max-width: 480px)
+  .header-h1
+    margin: 0 0 16px
+
 
 </style>

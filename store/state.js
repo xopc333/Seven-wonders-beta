@@ -3,10 +3,11 @@ import {ref, reactive} from "vue";
 import {gsap} from "gsap";
 
 export const useTransitionsStore = defineStore('transitions', ()=>{
-  const position = ref();//reactive({homeX: 0, homeY: 0, itemW: 0, itemSize: 0});
+  const position = ref();
   const dataName = ref();
   const widthItem = ref();
   const check = ref(false);
+  const checkTouch = ref(false);
 
   let right, bottom,root,Top,Left,Height;
   function sizeBox() {
@@ -20,7 +21,6 @@ export const useTransitionsStore = defineStore('transitions', ()=>{
   const articleFromEnter = (el)=> {
     root = document.documentElement;
     sizeBox();
-    //const tl = gsap.timeline();
 
     gsap.set(el.childNodes[2],{classList:'article'});
     gsap.set(root,{'--top': `${Top}px`, '--right': `${right}px`,'--bottom': `${bottom}px`,'--left': `${Left}px`});
@@ -32,8 +32,6 @@ export const useTransitionsStore = defineStore('transitions', ()=>{
     gsap.set(root,{'--top': '25vh', '--right': `${widthItem.value}px`,'--bottom': '25vh','--left': `${widthItem.value}px`,'--opacity-header-h1': 1});
     //gsap.set(el.childNodes[1].childNodes[2],{classList: 'header-h1 active-header-h1'});
     gsap.set(el,{delay: 1, position: 'relative'}).then(done);
-
-    //console.log(el);
   }
   const articleBeforeLeave = (el)=> {
     // console.log(el.childNodes[1].childNodes[2]);
@@ -45,12 +43,20 @@ export const useTransitionsStore = defineStore('transitions', ()=>{
     root = document.documentElement;
     check.value = false;
 
+    let topHeight,bottomHeight;
+
+    if (checkTouch.value) {
+      topHeight = Top + Height;
+      bottomHeight = bottom - Height;
+      checkTouch.value = false;
+    } else {
+      topHeight = Top;
+      bottomHeight = bottom;
+    }
+
     gsap.set(el.childNodes[2],{classList:'article'});
-    gsap.set(root,{'--top': `${Top + Height}px`, '--right': `${right}px`,'--bottom': `${bottom - Height}px`,'--left': `${Left + 5}px`, '--bottom-header-h1': '20vh','--opacity-header-h1': 0});
+    gsap.set(root,{'--top': `${topHeight}px`, '--right': `${right}px`,'--bottom': `${bottomHeight}px`,'--left': `${Left + 5}px`, '--bottom-header-h1': '25vh','--opacity-header-h1': 0});
     gsap.to(el,{duration: 0.6}).then(done);
-
-    //console.log(el.childNodes[1].childNodes[2]);
-
   }
   //_______________ home________________//
   const homeBeforeEnter = (el)=> {
@@ -63,9 +69,6 @@ export const useTransitionsStore = defineStore('transitions', ()=>{
     gsap.to(el,{duration: 0.6, opacity: 1, ease: "power1.out"}).delay(0.2)//.then(done);
     gsap.set(el,{delay: 1, position: 'relative'}).then(done);
   }
-  // const homeBeforeLeave = (el)=> {
-  //   //gsap.set(el,{opacity: 1})
-  // }
   const homeLeave = (el, done)=> {
     const item = el.childNodes[1].querySelector(`[data-name="${dataName.value}"]`);
 
@@ -75,6 +78,6 @@ export const useTransitionsStore = defineStore('transitions', ()=>{
 
   }
 
-  return {position, dataName, widthItem, check, articleFromEnter, articleEnter,
+  return {position, dataName, widthItem, check, checkTouch, articleFromEnter, articleEnter,
     homeLeave, homeEnter, homeBeforeEnter, articleLeave, articleBeforeLeave}
 })

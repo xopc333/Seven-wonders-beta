@@ -121,6 +121,7 @@ onMounted(() => {
     arrItem.forEach(elem => {
       elem.addEventListener(event,()=>{
         nextTick().then(() => active.value = elem.attributes['data-name'].nodeValue)
+        if (event !== 'focus') store.checkTouch = true;
       });
     })
   }
@@ -140,7 +141,7 @@ onMounted(() => {
       // let {x,y} = elem.getBoundingClientRect();
       // store.position.homeX = x.toFixed(2); //Math.round(x);  //x.toFixed(2);
       // store.position.homeY = y.toFixed(2); //Math.round(y);  //y.toFixed(2);
-      //console.log(store.position);
+      //console.log(elem.getBoundingClientRect());
       store.position = elem.getBoundingClientRect();
     });
   })
