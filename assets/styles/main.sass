@@ -19,27 +19,32 @@
 
 input, textarea
   outline: none
+
   &:focus:required:invalid
     border-color: red
+
   &:required:valid
     border-color: green
 
 .disable-hover
   pointer-events: none !important
 
+//html
+  height: 100dvh
+
 html:root
   --vw: 1vw
-  --blur: 0
-  --bgc: rgba(0, 0, 0, 0.0)
   --result: 0
   --transform: 0
   --opacity: 1
   --top: 25vh
   --left: 0
   --right: 0
-  --bottom: 25vh
+  --bottom: 25dvh
   --bottom-header-h1: 25vh
   --opacity-header-h1: 1
+  --opacity-bg: 0
+  --hoverFocus: translateY(-10%)
 
 body
   font: 16px 'Roboto-regular'
@@ -49,10 +54,12 @@ body
   line-height: 1.65
   overflow-x: hidden
   background-color: #232629
+  //height: 100%
 
 button
   outline-color: cornflowerblue
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+
   &::-moz-focus-inner
     border: 0
 
@@ -64,14 +71,14 @@ img
   width: 100%
   vertical-align: bottom
 
-h1,h2,h3,h4,h5,h6
+h1, h2, h3, h4, h5, h6
   margin: 0
 
 .body-wrap
   position: relative
-  max-width: calc(var(--vw)*100)
+  max-width: calc(var(--vw) * 100)
   height: 100vh
   margin: 0 auto
   padding: 0.1px 0 0
-  //overflow: hidden
+//overflow: hidden
 

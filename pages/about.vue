@@ -152,7 +152,7 @@ onMounted(() => {
   // })
   // resizeObserver.observe(bodyWrap);
 
-  gsap.set(root, {'--blur': '6px', '--bgc': 'rgba(0, 0, 0, 0.3)'});
+  gsap.set(root, {'--opacity-bg': 1});
 
   function moveArticle() {
     store.check = true;
@@ -166,6 +166,24 @@ onMounted(() => {
   document.addEventListener('wheel', function (e) {
     if (e.deltaY === 100) moveArticle();
   });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === 'ArrowDown') moveArticle();
+  });
+
+  let touchstartY = 0;
+  let touchendY = 0;
+
+  document.addEventListener('touchstart', e => {
+    touchstartY = e.changedTouches[0];
+  });
+
+  document.addEventListener('touchend', e => {
+    touchendY = e.changedTouches[0];
+    let xAbs = Math.abs(touchstartY.pageY - touchendY.pageY);
+    if (xAbs > 50) moveArticle();
+  });
+
 })
 
 </script>
@@ -186,33 +204,28 @@ onMounted(() => {
   position: sticky
   top: 0
   width: 100%
-  //max-width: 600px
-  height: 100vh
+  //height: 100%
   clip-path: inset(var(--top) var(--right) var(--bottom) var(--left) round 16px)
-  //margin: 0 auto
-  //height: 40vh
-  transition-timing-function: ease-in
-  transition: 0.6s
-  //pointer-events: none
+  //transition-timing-function: ease-in
+  transition: 0.4s
   will-change: contents
+  //perspective: 1000px
+  //backface-visibility: hidden
+  //transform: translateZ(0)
 
 .header-img
   height: 100%
   object-fit: cover
-//var(--img)  //none
-//object-position: center
-//box-shadow: 0 0 40px 0 rgba(0,0,0,0.4)
 
 picture
   width: 100%
-  height: 100vh
+  height: 100dvh
 
 .header-h1
   position: absolute
   bottom: var(--bottom-header-h1)
   left: calc(var(--left) + 20px)
   font: 6.5vmin 'Avantgardectt-bold'
-  //margin: 0 0 10px
   opacity: var(--opacity-header-h1)
   color: #F0EEEF
   text-shadow: 0 0 20px rgba(0, 0, 0, 1)

@@ -2,57 +2,43 @@
   <NuxtLink to="/" class="button-exit">Exit</NuxtLink>
   <div class="body-wrap">
     <div class="wrap-img" :class="{'active': active === 'chichen-itza'}">
-<!--      <img src="/seven-wonders/chichen-itza.jpg" alt="" class="img">-->
       <picture>
         <source media="screen and (min-width: 992px)" srcset="/seven-wonders/chichen-itza.jpg">
-        <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg"   class="img" alt="">
+        <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" class="img" alt="">
       </picture>
     </div>
 
-<!--    <div class="wrap-img" :class="{'active': active === 'coliseum'}">-->
-<!--      <img src="/seven-wonders/coliseum.jpg" alt="" class="img">-->
-<!--    </div>-->
     <picture class="wrap-img" :class="{'active': active === 'coliseum'}">
       <source media="screen and (min-width: 992px)" srcset="/seven-wonders/coliseum.jpg">
       <img src="/seven-wonders/small-1000/coliseum(1000).jpg" class="img" alt="">
     </picture>
-<!--    <div class="wrap-img" :class="{'active': active === 'machu-picchu'}">-->
-<!--      <img src="/seven-wonders/machu-picchu.jpg" alt="" class="img">-->
-<!--    </div>-->
+
     <picture class="wrap-img" :class="{'active': active === 'machu-picchu'}">
       <source media="screen and (min-width: 992px)" srcset="/seven-wonders/machu-picchu.jpg">
       <img src="/seven-wonders/small-1000/machu-picchu(1000).jpg" class="img" alt="">
     </picture>
-<!--    <div class="wrap-img" :class="{'active': active === 'petra'}">-->
-<!--      <img src="/seven-wonders/petra.jpg" alt="" class="img">-->
-<!--    </div>-->
+
     <picture class="wrap-img" :class="{'active': active === 'petra'}">
       <source media="screen and (min-width: 992px)" srcset="/seven-wonders/petra.jpg">
       <img src="/seven-wonders/small-1000/petra(1000).jpg" class="img" alt="">
     </picture>
-<!--    <div class="wrap-img" :class="{'active': active === 'statue'}">-->
-<!--      <img src="/seven-wonders/statue.jpg" alt="" class="img">-->
-<!--    </div>-->
+
     <picture class="wrap-img" :class="{'active': active === 'statue'}">
       <source media="screen and (min-width: 992px)" srcset="/seven-wonders/statue.jpg">
       <img src="/seven-wonders/small-1000/statue(1000).jpg" class="img" alt="">
     </picture>
-<!--    <div class="wrap-img" :class="{'active': active === 'taj-mahal'}">-->
-<!--      <img src="/seven-wonders/taj-mahal.jpg" alt="" class="img">-->
-<!--    </div>-->
+
     <picture class="wrap-img" :class="{'active': active === 'taj-mahal'}">
       <source media="screen and (min-width: 992px)" srcset="/seven-wonders/taj-mahal.jpg">
       <img src="/seven-wonders/small-1000/taj-mahal(1000).jpg" class="img" alt="">
     </picture>
-<!--    <div class="wrap-img" :class="{'active': active === 'wall'}">-->
-<!--      <img src="/seven-wonders/wall.jpg" alt="" class="img">-->
-<!--    </div>-->
+
     <picture class="wrap-img" :class="{'active': active === 'wall'}">
       <source media="screen and (min-width: 992px)" srcset="/seven-wonders/wall.jpg">
       <img src="/seven-wonders/small-1000/wall(1000).jpg" class="img" alt="">
     </picture>
     <div class="wrap-img" :class="{'active': active === 'pyramids'}">
-<!--      <img src="/seven-wonders/pyramids.jpg" alt="" class="img">-->
+
       <picture>
         <source media="screen and (min-width: 992px)" srcset="/seven-wonders/pyramids.jpg">
         <img src="/seven-wonders/small-1000/pyramids(1000).jpg" class="img" alt="">
@@ -81,12 +67,12 @@ onMounted(() => {
   function sizeBody() {
     let W_Height = window.screen.availHeight; //window.outerHeight;
     let W_Width = window.screen.availWidth; //outerWidth;
-    let w = (W_Width - 800)/ 2;
+    let w = (W_Width - 800) / 2;
     store.widthItem = w;
     //let n = W_Width / W_Height;
 
     //if (W_Width > W_Height && n > 1.78) {
-    if (W_Width < 800) {
+    if (W_Width < 880) {
       let vw = Math.floor(W_Height * 1.777777777777778);
       root.style.setProperty("--vw", `${vw / 100}px`);
       //console.log(vw)
@@ -94,7 +80,7 @@ onMounted(() => {
       root.style.setProperty("--vw", "1vw");
     }
 
-    if(!store.check){
+    if (!store.check) {
       if (W_Width < 832) {
         gsap.set(root, {'--left': '3vw', '--right': '3vw'})
         store.widthItem = W_Width * 0.03;
@@ -116,6 +102,7 @@ onMounted(() => {
     // store.position.viewportH = Math.round(W_Height); //.toFixed(2);
 
   }
+
   sizeBody();
   window.addEventListener("resize", sizeBody);
 })
@@ -135,14 +122,16 @@ onMounted(() => {
   //width: 100%
   //z-index: -1
   overflow: hidden
+
   &:after
     position: absolute
     content: ''
     inset: 0
-    backdrop-filter: blur(var(--blur))
-    background-color: var(--bgc)
-    //transition: 0.4s
-    //will-change: backdrop-filter, background-color contents
+    backdrop-filter: blur(6px)
+    background-color: rgba(0, 0, 0, 0.3)
+    transition: 0.4s
+    will-change: contents
+    opacity: var(--opacity-bg)
     z-index: -1
 
 .wrap-img

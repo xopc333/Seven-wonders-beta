@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import {onMounted,ref,reactive,nextTick,watch,watchEffect,defineEmits} from "vue";
+import {onMounted, ref, reactive, nextTick, watch, watchEffect, defineEmits} from "vue";
 import {gsap} from "gsap";
 import {useTransitionsStore} from '~/store/state';
 
@@ -104,7 +104,7 @@ const active = ref('pyramids');
 //   console.log('ypa',active.value)
 // })
 
-watchEffect(() =>{
+watchEffect(() => {
   emit('dataName', active.value)
   store.dataName = active.value;
   //console.log('ypa',active.value)
@@ -115,18 +115,23 @@ onMounted(() => {
   const arrItem = [...document.querySelectorAll('.item-wrap')]
   const blockWrap = document.querySelector('.block-wrap');
 
-  gsap.set(root,{'--blur': 0,'--bgc': 'rgba(0, 0, 0, 0.0)'});
+  gsap.set(root, {'--opacity-bg': 0});
+
+  if (typeof screen.orientation !== 'undefined') {
+    store.checkTouch = true;
+    gsap.set(root, {'--hoverFocus': 'translateY(0%)'});
+  }
 
   function getDataName(event) {
     arrItem.forEach(elem => {
-      elem.addEventListener(event,()=>{
+      elem.addEventListener(event, () => {
         nextTick().then(() => active.value = elem.attributes['data-name'].nodeValue)
-        if (event !== 'focus') store.checkTouch = true;
       });
     })
   }
+
   function setDataName(event) {
-    blockWrap.addEventListener(event,()=>{
+    blockWrap.addEventListener(event, () => {
       nextTick().then(() => active.value = 'pyramids')
     });
   }
@@ -137,7 +142,7 @@ onMounted(() => {
   setDataName('focusout');
 
   arrItem.forEach(elem => {
-    elem.addEventListener('click',()=>{
+    elem.addEventListener('click', () => {
       // let {x,y} = elem.getBoundingClientRect();
       // store.position.homeX = x.toFixed(2); //Math.round(x);  //x.toFixed(2);
       // store.position.homeY = y.toFixed(2); //Math.round(y);  //y.toFixed(2);
@@ -186,23 +191,23 @@ onMounted(() => {
   position: relative
   max-width: 1000px
   margin: auto auto 0
-  //outline: 1px solid red
+//outline: 1px solid red
 
 .h2
   //width: max-content
   font: 68px 'Roboto-bold'
-  //text-transform: uppercase
-  //text-align: center
-  //color: #F0EEEF //rgba(255, 255, 255, 0.6)
-  //background: linear-gradient(180deg, transparent 0%, #ffffff)
-  //-webkit-background-clip: text
-  //-webkit-text-stroke: 1px #000
-  //margin: 0 auto
-  //text-shadow: 0 0 20px rgba(0,0,0,1)
-  //visibility: hidden
-  //transform: translateY(250%)
-  //transition: 0.6s
-  //opacity: 0
+//text-transform: uppercase
+//text-align: center
+//color: #F0EEEF //rgba(255, 255, 255, 0.6)
+//background: linear-gradient(180deg, transparent 0%, #ffffff)
+//-webkit-background-clip: text
+//-webkit-text-stroke: 1px #000
+//margin: 0 auto
+//text-shadow: 0 0 20px rgba(0,0,0,1)
+//visibility: hidden
+//transform: translateY(250%)
+//transition: 0.6s
+//opacity: 0
 
 .h1
   max-width: 1000px
@@ -211,7 +216,7 @@ onMounted(() => {
   text-align: center
   color: #F0EEEF
   margin: 0
-  text-shadow: 0 0 20px rgba(0,0,0,1)
+  text-shadow: 0 0 20px rgba(0, 0, 0, 1)
   transition: 0.6s
   transform: translateY(150%)
   opacity: 0
@@ -234,18 +239,19 @@ onMounted(() => {
   position: absolute
   left: 50%
   bottom: 0
-  width: 100% //max-content
+  width: 100%
+  //max-content
   font: 78px 'Avantgardectt-bold'
   text-transform: uppercase
   text-align: center
   color: #F0EEEF
-  text-shadow: 0 0 20px rgba(0,0,0,1)
-  transform: translate(-50%,230%)
+  text-shadow: 0 0 20px rgba(0, 0, 0, 1)
+  transform: translate(-50%, 230%)
   transition: 0.6s
   opacity: 0
 
 .active-h1
-  transform: translate(-50%,0)
+  transform: translate(-50%, 0)
   transition: 0.6s
   opacity: 1
 
@@ -254,9 +260,9 @@ onMounted(() => {
 
 @keyframes move-h1
   from
-    transform: translate(-50%,0)
+    transform: translate(-50%, 0)
   to
-    transform: translate(-50%,-20vh)
+    transform: translate(-50%, -20vh)
 
 .block-wrap
   display: flex
@@ -264,9 +270,10 @@ onMounted(() => {
   //gap: 0 10px
   max-width: 1000px
   padding: 0 5px
-  margin: 50px auto auto //70px
+  margin: 50px auto auto
+  //70px
   z-index: 1
-  //outline: 1px solid red
+//outline: 1px solid red
 
 .item-wrap
   padding: 0 5px
@@ -274,22 +281,24 @@ onMounted(() => {
   //box-shadow: 0 0 20px 0 rgba(0,0,0,1)
   transition: 0.6s
   outline: none
+
   &:hover,
   &:focus
-    transform: translateY(-10%)
+    transform: var(--hoverFocus)
+    //translateY(-10%)
 
 .item
   height: 30vh
   border-radius: 10px
   object-fit: cover
   object-position: center
-  box-shadow: 0 0 20px 0 rgba(0,0,0,1)
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 1)
 
-@media only screen and (max-width: 760px)
+@media only screen and (max-width: 880px)
   .h1,
   .item-h2
-    font-size: 13vmin
+    font-size: 11.5vmin
   .h2
-    font-size: 11.6vmin
+    font-size: 10.1vmin
 
 </style>
