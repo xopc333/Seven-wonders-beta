@@ -1,5 +1,4 @@
 <template>
-  <NuxtLink to="/" class="button-exit">Exit</NuxtLink>
   <div class="body-wrap">
     <div class="wrap-img" :class="{'active': active === 'chichen-itza'}">
       <picture>
@@ -46,6 +45,8 @@
     </div>
 
     <NuxtPage @dataName="(i)=>{ active = i}"/>
+
+    <NuxtLink to="/" class="button-exit">Exit</NuxtLink>
   </div>
 
 </template>
@@ -84,6 +85,7 @@ onMounted(() => {
       if (W_Width < 832) {
         gsap.set(root, {'--left': '3vw', '--right': '3vw'})
         store.widthItem = W_Width * 0.03;
+        //gsap.set(root, {'--left': `${store.widthItem}px`, '--right': `${store.widthItem}px`})
         //console.log('check.value');
       } else {
         gsap.set(root, {'--left': `${w}px`, '--right': `${w}px`})

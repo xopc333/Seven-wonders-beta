@@ -18,22 +18,25 @@ export const useTransitionsStore = defineStore('transitions', () => {
     Height = height * 0.1;
     right = Math.round(window.visualViewport.width - (left + width));
     bottom = Math.round(window.visualViewport.height - (top + height));
-    // right = (window.visualViewport.width - (left + width)).toFixed(2)
-    // bottom = (window.visualViewport.height - (top + height)).toFixed(2)
+  }
+
+  function sizeWidthItem() {
+    let W_Width = window.screen.availWidth;
+    if (W_Width < 832) {
+      widthItem.value = W_Width * 0.03;
+    }
   }
 
   const articleFromEnter = (el) => {
     root = document.documentElement;
     sizeBox();
-
+    sizeWidthItem();
     gsap.set(el.childNodes[2], {classList: 'article'});
     gsap.set(root, {'--top': `${Top}px`, '--right': `${right}px`, '--bottom': `${bottom}px`, '--left': `${Left}px`});
     gsap.set(el, {position: "absolute",})
   }
 
   const articleEnter = (el, done) => {
-    //check.value = false;
-    //console.log(check.value, 'ypa');
     gsap.set(root, {
       '--top': '25vh',
       '--right': `${widthItem.value}px`,
@@ -69,7 +72,7 @@ export const useTransitionsStore = defineStore('transitions', () => {
       '--right': `${right + 5}px`,
       '--bottom': `${bottomHeight}px`,
       '--left': `${Left + 5}px`,
-      '--bottom-header-h1': '25vh',
+      '--bottom-header-h1': '25dvh',
       '--opacity-header-h1': 0
     });
     gsap.to(el, {duration: 0.6}).then(done);

@@ -157,8 +157,8 @@ onMounted(() => {
   function moveArticle() {
     store.check = true;
     gsap.set(root, {
-      '--top': '3vh', '--right': '3vw', '--bottom': '82vh',
-      '--left': '3vw', '--bottom-header-h1': '82vh'
+      '--top': '3vh', '--right': '3vw', '--bottom': '82dvh',
+      '--left': '3vw', '--bottom-header-h1': '82dvh'
     });
     gsap.set(article, {className: 'article active-article'});
   }
@@ -209,9 +209,9 @@ onMounted(() => {
   //transition-timing-function: ease-in
   transition: 0.4s
   will-change: contents
-  //perspective: 1000px
-  //backface-visibility: hidden
-  //transform: translateZ(0)
+//perspective: 1000px
+//backface-visibility: hidden
+//transform: translateZ(0)
 
 .header-img
   height: 100%
@@ -233,7 +233,7 @@ picture
 
 .article
   width: 100%
-  height: 72vh
+  height: 72dvh
   overflow-x: hidden
   scrollbar-width: thin
   //Fire Fox
@@ -247,7 +247,7 @@ picture
     width: 8px
 
 .active-article
-  transform: translateY(-78vh)
+  transform: translateY(-78dvh)
   opacity: 1
 
 .article::-webkit-scrollbar-track-piece
