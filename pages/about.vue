@@ -1,6 +1,18 @@
 <template>
   <div class="article-template">
-    <NuxtLink to="/" class="button-back">Back</NuxtLink>
+    <NuxtLink to="/" class="button button-back" title="Back">
+      <div class="button-box">
+				<span class="button-elem">
+					<svg viewBox="0 0 46 40" id="fleche" xmlns="http://www.w3.org/2000/svg">
+						<path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+					</svg>
+				</span>
+        <span class="button-elem">
+          <svg viewBox="0 0 46 40"><use xlink:href="#fleche"></use></svg>
+        </span>
+      </div>
+    </NuxtLink>
     <section class="header">
       <picture>
         <source media="screen and (min-width: 992px)" srcset="/seven-wonders/chichen-itza.jpg">
@@ -11,6 +23,7 @@
 
     <section class="article">
       <div class="article-text">
+
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur, consequatur enim itaque modi nulla
           omnis quam quasi tempora. Ab facilis impedit in incidunt nisi. Autem cumque illum ipsam iusto libero molestiae
           molestias nam natus nesciunt optio quis quisquam sint, vitae. Non nulla saepe totam. Accusamus architecto
@@ -19,7 +32,8 @@
           distinctio doloremque iusto maiores repellat repellendus reprehenderit unde! Accusantium consectetur
           consequuntur corporis cumque ea eos, est expedita fugiat in inventore itaque odio, quo quod, temporibus
           voluptatum? Architecto asperiores beatae deleniti, doloribus error explicabo fugit laboriosam modi neque
-          optio. Ab aperiam at blanditiis, culpa doloremque error eum facere facilis inventore, odio quam quibusdam
+          optio.<img src="/seven-wonders/small-500/chichen-itza(500)-two.jpg" alt="" class="article-img" align="left"/>
+          Ab aperiam at blanditiis, culpa doloremque error eum facere facilis inventore, odio quam quibusdam
           similique tempore? Animi aperiam blanditiis deserunt dignissimos distinctio doloribus eaque est, ex
           exercitationem expedita explicabo facere fugit incidunt iste laborum modi molestias nam neque nulla odio odit
           officia perferendis placeat provident quae quam quo reprehenderit rerum sapiente sequi sint ullam voluptas
@@ -105,9 +119,9 @@ definePageMeta({
     onEnter(el, done) {
       useTransitionsStore().articleEnter(el, done)
     },
-    onBeforeLeave(el) {
-      useTransitionsStore().articleBeforeLeave(el);
-    },
+    // onBeforeLeave(el) {
+    //   useTransitionsStore().articleBeforeLeave(el);
+    // },
     onLeave(el, done) {
       useTransitionsStore().articleLeave(el, done);
     }
@@ -193,11 +207,30 @@ onMounted(() => {
   position: relative
   inset: 0
 
+.button-box
+  display: flex
+  position: absolute
+  top: 0
+  left: 0
+
+.button-elem
+  display: block
+  width: 22px
+  height: 22px
+  margin: 18px 19px 20px
+  transform: rotate(180deg)
+  fill: var(--color-button-one)
+
 .button-back
   position: fixed
-  top: 30px
-  left: 30px
+  top: 10px
+  left: 10px
   z-index: 1
+
+  &:hover, &:focus
+    > .button-box
+      transition: .4s
+      transform: translateX(-60px)
 
 .header
   display: flex
@@ -262,6 +295,11 @@ picture
   padding: 0 16px
   margin: 0 auto
   color: #F0EEEF
+
+.article-img
+  max-width: 300px
+  margin: 10px 10px 10px 0
+
 
 @media only screen and (max-width: 760px)
   .header-h1

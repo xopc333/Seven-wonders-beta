@@ -107,7 +107,6 @@ const active = ref('pyramids');
 watchEffect(() => {
   emit('dataName', active.value)
   store.dataName = active.value;
-  //console.log('ypa',active.value)
 })
 
 onMounted(() => {
@@ -117,7 +116,13 @@ onMounted(() => {
 
   gsap.set(root, {'--opacity-bg': 0});
 
-  if (typeof screen.orientation !== 'undefined') {
+  const bMobile =
+      navigator.userAgent.indexOf("Mobile") !== -1 ||
+      navigator.userAgent.indexOf("iPhone") !== -1 ||
+      navigator.userAgent.indexOf("Android") !== -1 ||
+      navigator.userAgent.indexOf("Windows Phone") !== -1;
+
+  if (bMobile) {
     store.checkTouch = true;
     gsap.set(root, {'--hoverFocus': 'translateY(0%)'});
   }

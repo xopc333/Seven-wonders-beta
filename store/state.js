@@ -48,9 +48,6 @@ export const useTransitionsStore = defineStore('transitions', () => {
     gsap.set(el, {delay: 1, position: 'relative'}).then(done);
   }
 
-  const articleBeforeLeave = (el) => {
-  }
-
   const articleLeave = (el, done) => {
     root = document.documentElement;
     check.value = false;
@@ -102,6 +99,6 @@ export const useTransitionsStore = defineStore('transitions', () => {
 
   return {
     position, dataName, widthItem, check, checkTouch, articleFromEnter, articleEnter,
-    homeLeave, homeEnter, homeBeforeEnter, articleLeave, articleBeforeLeave
+    homeLeave, homeEnter, homeBeforeEnter, articleLeave
   }
 })
