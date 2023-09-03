@@ -63,51 +63,31 @@ import {useTransitionsStore} from '~/store/state';
 
 const store = useTransitionsStore();
 
-//const emit = defineEmits(['dataName']);
-
 const active = ref();
 
 onMounted(() => {
   const root = document.documentElement;
 
   function sizeBody() {
-    let W_Height = window.screen.availHeight; //window.outerHeight;
-    let W_Width = window.screen.availWidth; //outerWidth;
-    let w = (W_Width - 800) / 2;
-    store.widthItem = w;
-    //let n = W_Width / W_Height;
+    let W_Height = window.screen.availHeight;
+    store.W_Width = window.screen.availWidth;
+    store.widthItem = (store.W_Width - 800) / 2;
 
-    //if (W_Width > W_Height && n > 1.78) {
-    if (W_Width < 880) {
+    if (store.W_Width < 880) {
       let vw = Math.floor(W_Height * 1.777777777777778);
       root.style.setProperty("--vw", `${vw / 100}px`);
-      //console.log(vw)
     } else {
       root.style.setProperty("--vw", "1vw");
     }
 
-    if (!store.check) {
-      if (W_Width < 832) {
-        gsap.set(root, {'--left': '3vw', '--right': '3vw'})
-        store.widthItem = W_Width * 0.03;
-        //gsap.set(root, {'--left': `${store.widthItem}px`, '--right': `${store.widthItem}px`})
-        //console.log('check.value');
-      } else {
-        gsap.set(root, {'--left': `${w}px`, '--right': `${w}px`})
-        //console.log('check.value', 'ypa');
-      }
-    }
+    if (store.check) store.widthItem = 70;
 
-    // if (W_Width < 400) {
-    //   //store.heightHeaderH1 = '85vh';
-    //   gsap.set(root,{'--bottom-header-h1': '85vh'});
-    // } else {
-    //   gsap.set(root,{'--bottom-header-h1': '82vh'});
-    // }
+    if (store.W_Width < 880) store.widthItem = Math.round(store.W_Width * 0.03);
 
-    // store.position.viewportW = Math.round(W_Width); //.toFixed(2);
-    // store.position.viewportH = Math.round(W_Height); //.toFixed(2);
+    if (store.W_Width < 1380 && store.check) gsap.set(root, {'--left-header-h1': 'calc(var(--left) + 20px)'});
+    if (store.W_Width > 1380 && store.check) gsap.set(root, {'--left-header-h1': 'calc(50% - 600px)'});
 
+    gsap.set(root, {'--left': `${store.widthItem}px`, '--right': `${store.widthItem}px`})
   }
 
   sizeBody();
@@ -127,11 +107,6 @@ onMounted(() => {
 
 .body-wrap
   position: relative
-  //position: fixed
-  //top: 0
-  //left: 0
-  //width: 100%
-  //z-index: -1
   overflow: hidden
 
   &:after
@@ -147,10 +122,6 @@ onMounted(() => {
 
 .wrap-img
   position: absolute
-  //top: 0
-  //left: 0
-  //width: 100%
-  //height: 100vh
   inset: 0
   overflow: hidden
   z-index: -1
@@ -161,8 +132,12 @@ onMounted(() => {
   opacity: 1
 
 .img
-  //width: 100vw
   height: 100%
   object-fit: cover
+
+@media only screen and (max-width: 880px)
+  .button-exit
+    top: auto
+    bottom: 10px
 
 </style>

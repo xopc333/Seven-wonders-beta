@@ -8,6 +8,7 @@ export const useTransitionsStore = defineStore('transitions', () => {
   const widthItem = ref();
   const check = ref(false);
   const checkTouch = ref(false);
+  const W_Width = ref();
 
   let right, bottom, root, Top, Left, Height;
 
@@ -21,9 +22,11 @@ export const useTransitionsStore = defineStore('transitions', () => {
   }
 
   function sizeWidthItem() {
-    let W_Width = window.screen.availWidth;
-    if (W_Width < 832) {
-      widthItem.value = W_Width * 0.03;
+    W_Width.value = window.screen.availWidth;
+    if (W_Width.value < 880) {
+      widthItem.value = W_Width.value * 0.03;
+    } else {
+      widthItem.value = (W_Width.value - 800) / 2;
     }
   }
 
@@ -70,7 +73,8 @@ export const useTransitionsStore = defineStore('transitions', () => {
       '--bottom': `${bottomHeight}px`,
       '--left': `${Left + 5}px`,
       '--bottom-header-h1': '25dvh',
-      '--opacity-header-h1': 0
+      '--opacity-header-h1': 0,
+      '--left-header-h1': 'calc(var(--left) + 20px)'
     });
     gsap.to(el, {duration: 0.6}).then(done);
   }
@@ -78,6 +82,7 @@ export const useTransitionsStore = defineStore('transitions', () => {
 
   const homeBeforeEnter = (el) => {
     root = document.documentElement;
+
     gsap.set(root, {'--transform': '150%', '--opacity': 0});
     gsap.set(el, {opacity: 0, position: "absolute"});
   }
@@ -98,7 +103,7 @@ export const useTransitionsStore = defineStore('transitions', () => {
   }
 
   return {
-    position, dataName, widthItem, check, checkTouch, articleFromEnter, articleEnter,
+    position, dataName, widthItem, check, checkTouch, W_Width, articleFromEnter, articleEnter,
     homeLeave, homeEnter, homeBeforeEnter, articleLeave
   }
 })

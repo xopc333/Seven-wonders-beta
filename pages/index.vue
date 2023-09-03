@@ -70,23 +70,15 @@ definePageMeta({
   layout: "default",
   pageTransition: {
     mode: 'in-out',
-    //name: 'page'
     css: false,
     onBeforeEnter(el) {
       useTransitionsStore().homeBeforeEnter(el);
-      //(!state.check) ? actorFromEnterFalse(el):actorFromEnterTrue(el);
     },
     onEnter(el, done) {
       useTransitionsStore().homeEnter(el, done)
-      //(!state.check) ? actorEnterFalse(el, done) : actorEnterTrue(el, done);
     },
-    // onBeforeLeave(el) {
-    //   useTransitionsStore().homeBeforeLeave(el);
-    //   ///actorBeforeLeaveTrue(el);
-    // },
     onLeave(el, done) {
       useTransitionsStore().homeLeave(el, done);
-      ///(!state.check) ? actorLeave(el, done):actorLeaveTrue(el, done);
     }
   }
 });
@@ -148,18 +140,9 @@ onMounted(() => {
 
   arrItem.forEach(elem => {
     elem.addEventListener('click', () => {
-      // let {x,y} = elem.getBoundingClientRect();
-      // store.position.homeX = x.toFixed(2); //Math.round(x);  //x.toFixed(2);
-      // store.position.homeY = y.toFixed(2); //Math.round(y);  //y.toFixed(2);
-      //console.log(elem.getBoundingClientRect());
       store.position = elem.getBoundingClientRect();
     });
   })
-  //store.position.itemW = Math.round(arrItem[0].getBoundingClientRect().width);
-
-  // const homeTemplate = document.querySelector('.home-template').getBoundingClientRect();
-  // console.log(homeTemplate,'homeTemplate');
-
 })
 </script>
 
@@ -174,45 +157,13 @@ onMounted(() => {
   align-items: center
   inset: 0
 
-//.wrap-img
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100vh
-  overflow: hidden
-  z-index: -1
-  opacity: 0
-  transition: 0.6s
-
-//.active
-  opacity: 1
-
-//.img
-  height: 100%
-  object-fit: cover
-
 .wrap-h1
   position: relative
   max-width: 1000px
   margin: auto auto 0
-//outline: 1px solid red
 
 .h2
-  //width: max-content
   font: 68px 'Roboto-bold'
-//text-transform: uppercase
-//text-align: center
-//color: #F0EEEF //rgba(255, 255, 255, 0.6)
-//background: linear-gradient(180deg, transparent 0%, #ffffff)
-//-webkit-background-clip: text
-//-webkit-text-stroke: 1px #000
-//margin: 0 auto
-//text-shadow: 0 0 20px rgba(0,0,0,1)
-//visibility: hidden
-//transform: translateY(250%)
-//transition: 0.6s
-//opacity: 0
 
 .h1
   max-width: 1000px
@@ -245,7 +196,6 @@ onMounted(() => {
   left: 50%
   bottom: 0
   width: 100%
-  //max-content
   font: 78px 'Avantgardectt-bold'
   text-transform: uppercase
   text-align: center
@@ -272,25 +222,19 @@ onMounted(() => {
 .block-wrap
   display: flex
   flex-wrap: nowrap
-  //gap: 0 10px
   max-width: 1000px
   padding: 0 5px
   margin: 50px auto auto
-  //70px
   z-index: 1
-//outline: 1px solid red
 
 .item-wrap
   padding: 0 5px
-  //overflow: hidden
-  //box-shadow: 0 0 20px 0 rgba(0,0,0,1)
   transition: 0.6s
   outline: none
 
   &:hover,
   &:focus
     transform: var(--hoverFocus)
-    //translateY(-10%)
 
 .item
   height: 30vh

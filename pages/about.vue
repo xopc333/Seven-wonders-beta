@@ -111,7 +111,6 @@ definePageMeta({
   layout: "default",
   pageTransition: {
     mode: 'in-out',
-    //name: 'pages'
     css: false,
     onBeforeEnter(el) {
       useTransitionsStore().articleFromEnter(el);
@@ -119,9 +118,6 @@ definePageMeta({
     onEnter(el, done) {
       useTransitionsStore().articleEnter(el, done)
     },
-    // onBeforeLeave(el) {
-    //   useTransitionsStore().articleBeforeLeave(el);
-    // },
     onLeave(el, done) {
       useTransitionsStore().articleLeave(el, done);
     }
@@ -154,6 +150,8 @@ onMounted(() => {
   // const headerH1 = document.querySelector('.header-h1');
   // const headerImg = document.querySelector('.header-img');
   const root = document.documentElement;
+  let touchstartY = 0;
+  let touchendY = 0;
 
   // const resizeObserver = new ResizeObserver(() => {
   //   let bodyWrapSize = bodyWrap.getBoundingClientRect().height;
@@ -169,12 +167,31 @@ onMounted(() => {
   gsap.set(root, {'--opacity-bg': 1});
 
   function moveArticle() {
-    store.check = true;
-    gsap.set(root, {
-      '--top': '3vh', '--right': '3vw', '--bottom': '82dvh',
-      '--left': '3vw', '--bottom-header-h1': '82dvh'
-    });
     gsap.set(article, {className: 'article active-article'});
+
+    if (store.check) return false
+
+    store.check = true;
+
+    let value;
+
+    if (store.W_Width < 880) {
+      store.widthItem = Math.round(store.W_Width * 0.03);
+    } else {
+      store.widthItem = 70;
+    }
+
+    if (store.W_Width < 1380) {
+      value = 'calc(var(--left) + 20px)';
+    } else {
+      value = 'calc(50% - 600px)'
+    }
+
+    gsap.set(root, {
+      '--top': '3vh', '--right': `${store.widthItem}px`, '--bottom': '82dvh',
+      '--left': `${store.widthItem}px`, '--bottom-header-h1': '82dvh', '--left-header-h1': value
+    });
+
   }
 
   document.addEventListener('wheel', function (e) {
@@ -184,9 +201,6 @@ onMounted(() => {
   document.addEventListener("keydown", (e) => {
     if (e.code === 'ArrowDown') moveArticle();
   });
-
-  let touchstartY = 0;
-  let touchendY = 0;
 
   document.addEventListener('touchstart', e => {
     touchstartY = e.changedTouches[0];
@@ -215,9 +229,9 @@ onMounted(() => {
 
 .button-elem
   display: block
-  width: 22px
-  height: 22px
-  margin: 18px 19px 20px
+  width: 20px
+  height: 20px
+  margin: 17px 18px 0 18px
   transform: rotate(180deg)
   fill: var(--color-button-one)
 
@@ -230,14 +244,13 @@ onMounted(() => {
   &:hover, &:focus
     > .button-box
       transition: .4s
-      transform: translateX(-60px)
+      transform: translateX(-56px)
 
 .header
   display: flex
   position: sticky
   top: 0
   width: 100%
-  //height: 100%
   clip-path: inset(var(--top) var(--right) var(--bottom) var(--left) round 16px)
   //transition-timing-function: ease-in
   transition: 0.4s
@@ -257,7 +270,7 @@ picture
 .header-h1
   position: absolute
   bottom: var(--bottom-header-h1)
-  left: calc(var(--left) + 20px)
+  left: var(--left-header-h1)
   font: 6.5vmin 'Avantgardectt-bold'
   opacity: var(--opacity-header-h1)
   color: #F0EEEF
@@ -292,13 +305,21 @@ picture
 
 .article-text
   max-width: 1200px
-  padding: 0 16px
+  padding: 0 70px
   margin: 0 auto
   color: #F0EEEF
 
 .article-img
   max-width: 300px
   margin: 10px 10px 10px 0
+
+@media only screen and (max-width: 880px)
+  .button-back
+    top: auto
+    bottom: 10px
+
+  .article-text
+    padding: 0 16px
 
 
 @media only screen and (max-width: 760px)

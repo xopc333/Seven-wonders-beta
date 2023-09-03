@@ -26,12 +26,6 @@ input, textarea
   &:required:valid
     border-color: green
 
-//.disable-hover
-//  pointer-events: none !important
-
-//html
-  height: 100dvh
-
 html:root
   --vw: 1vw
   --result: 0
@@ -41,6 +35,7 @@ html:root
   --left: 0
   --right: 0
   --bottom: 25dvh
+  --left-header-h1: calc(var(--left) + 20px)
   --bottom-header-h1: 25vh
   --opacity-header-h1: 1
   --opacity-bg: 0
@@ -86,8 +81,8 @@ h1, h2, h3, h4, h5, h6
 .button
   display: block
   position: relative
-  width: 60px
-  height: 60px
+  width: 56px
+  height: 56px
   margin: 0
   overflow: hidden
   outline: none
