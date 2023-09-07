@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import {ref, reactive} from "vue";
+import {ref} from "vue";
 import {gsap} from "gsap";
 
 export const useTransitionsStore = defineStore('transitions', () => {
@@ -47,7 +47,6 @@ export const useTransitionsStore = defineStore('transitions', () => {
       '--left': `${widthItem.value}px`,
       '--opacity-header-h1': 1
     });
-    //gsap.set(el.childNodes[1].childNodes[2],{classList: 'header-h1 active-header-h1'});
     gsap.set(el, {delay: 1, position: 'relative'}).then(done);
   }
 
@@ -95,9 +94,7 @@ export const useTransitionsStore = defineStore('transitions', () => {
 
   const homeLeave = (el, done) => {
     const item = el.childNodes[1].querySelector(`[data-name="${dataName.value}"]`);
-
     gsap.set(item.childNodes[0], {visibility: 'hidden'});
-    //item.childNodes[0].style.setProperty('visibility', 'hidden');
     gsap.to(el, {duration: 0.4, opacity: 0}).then(done);
 
   }

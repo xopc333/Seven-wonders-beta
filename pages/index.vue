@@ -2,69 +2,32 @@
   <div class="home-template">
 
     <div class="wrap-h1">
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'chichen-itza','act-h1': active !== 'chichen-itza'}"
-      >Chichen-Itza</h2>
+      <template v-for="item of itemData" :key="item.id">
+        <h2 class="item-h2" v-html="item.h1"
+            :class="{'active-h1': active === `${item[`data-name`]}`,'act-h1': active !== `${item[`data-name`]}`}"
+        ></h2>
+      </template>
 
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'coliseum','act-h1': active !== 'coliseum'}"
-      >Coliseum</h2>
-
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'machu-picchu','act-h1': active !== 'machu-picchu'}"
-      >Machu-Picchu</h2>
-
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'petra','act-h1': active !== 'petra'}"
-      >Petra</h2>
-
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'statue','act-h1': active !== 'statue'}"
-      >Statue of<br>Christ the Redeemer</h2>
-
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'taj-mahal','act-h1': active !== 'taj-mahal'}"
-      >Taj-Mahal</h2>
-
-      <h2 class="item-h2"
-          :class="{'active-h1': active === 'wall','act-h1': active !== 'wall'}"
-      >The great Wall of China</h2>
-
-      <h1 class="h1"
+      <h1 class="h1" v-html="homeData.h1"
           :class="{'active-h1-home': active ==='pyramids','act-h1-home': active !== 'pyramids'}"
-      >7 wonders of <span style="white-space: nowrap;">the world</span><br><span class="h2">Our time</span></h1>
+      ></h1>
     </div>
 
     <div class="block-wrap">
-      <NuxtLink to="/about" class="item-wrap" data-name="chichen-itza">
-        <img src="/seven-wonders/small-1000/chichen-itza(1000).jpg" alt="" class="item">
-      </NuxtLink>
-      <NuxtLink to="/" class="item-wrap" data-name="coliseum">
-        <img src="/seven-wonders/small-1000/coliseum(1000).jpg" alt="" class="item">
-      </NuxtLink>
-      <NuxtLink to="/about" class="item-wrap" data-name="machu-picchu">
-        <img src="/seven-wonders/small-1000/machu-picchu(1000).jpg" alt="" class="item">
-      </NuxtLink>
-      <NuxtLink to="/" class="item-wrap" data-name="petra">
-        <img src="/seven-wonders/small-1000/petra(1000).jpg" alt="" class="item">
-      </NuxtLink>
-      <NuxtLink to="/" class="item-wrap" data-name="statue">
-        <img src="/seven-wonders/small-1000/statue(1000).jpg" alt="" class="item">
-      </NuxtLink>
-      <NuxtLink to="/" class="item-wrap" data-name="taj-mahal">
-        <img src="/seven-wonders/small-1000/taj-mahal(1000).jpg" alt="" class="item">
-      </NuxtLink>
-      <NuxtLink to="/about" class="item-wrap" data-name="wall">
-        <img src="/seven-wonders/small-1000/wall(1000).jpg" alt="" class="item">
-      </NuxtLink>
+      <template v-for="elem of itemData" :key="elem.id">
+        <NuxtLink :to="`${elem[`data-name`]}`" class="item-wrap" :data-name="`${elem[`data-name`]}`">
+          <img :src="`${elem[`img-small`]}`" :alt="`${elem.title}`" class="item">
+        </NuxtLink>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup>
-import {onMounted, ref, reactive, nextTick, watch, watchEffect, defineEmits} from "vue";
+import {onMounted, ref, onUpdated, nextTick, watchEffect, defineEmits} from "vue";
 import {gsap} from "gsap";
 import {useTransitionsStore} from '~/store/state';
+import {useGetApiStore} from "~/store/getApi";
 
 definePageMeta({
   layout: "default",
@@ -83,28 +46,27 @@ definePageMeta({
   }
 });
 
-useHead({
-  title: 'Home ',
-})
 const emit = defineEmits(['dataName']);
 const store = useTransitionsStore();
 const active = ref('pyramids');
-//const route = useRoute().path;
+const homeData = ref({});
+const itemData = ref();
 
-// watch(active,() => {
-//   emit('dataName', active.value)
-//   console.log('ypa',active.value)
-// })
-
-watchEffect(() => {
+watchEffect(async () => {
   emit('dataName', active.value)
   store.dataName = active.value;
+  if (Object.keys(useGetApiStore().data).length > 0) {
+    homeData.value = await useGetApiStore().data["/"]
+    useHead({
+      title: await homeData.value.title
+    })
+    itemData.value = {...useGetApiStore().data};
+    delete itemData.value["/"]
+  }
 })
 
 onMounted(() => {
   const root = document.documentElement;
-  const arrItem = [...document.querySelectorAll('.item-wrap')]
-  const blockWrap = document.querySelector('.block-wrap');
 
   gsap.set(root, {'--opacity-bg': 0});
 
@@ -118,6 +80,11 @@ onMounted(() => {
     store.checkTouch = true;
     gsap.set(root, {'--hoverFocus': 'translateY(0%)'});
   }
+})
+
+onUpdated(() => {
+  const arrItem = [...document.querySelectorAll('.item-wrap')];
+  const blockWrap = document.querySelector('.block-wrap');
 
   function getDataName(event) {
     arrItem.forEach(elem => {
@@ -143,6 +110,7 @@ onMounted(() => {
       store.position = elem.getBoundingClientRect();
     });
   })
+
 })
 </script>
 
