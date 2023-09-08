@@ -15,7 +15,7 @@
 
     <div class="block-wrap">
       <template v-for="elem of itemData" :key="elem.id">
-        <NuxtLink :to="`${elem[`data-name`]}`" class="item-wrap" :data-name="`${elem[`data-name`]}`">
+        <NuxtLink :to="`${elem[`data-name`]}`" class="item-wrap" :data-name="`${elem[`data-name`]}`" prefetch>
           <img :src="`${elem[`img-small`]}`" :alt="`${elem.title}`" class="item">
         </NuxtLink>
       </template>
